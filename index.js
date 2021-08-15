@@ -280,7 +280,11 @@ async function exposePort(port, message){
     let proc = await startTunnel(port, word, message)
     if(proc == 'e'){
         return exposePort(port, message)
-    } else {
+    } else if(proc == 'ep') {
+        console.log("Pgrok binary not found")
+        process.exit()
+    }
+    else {
         return { word: word, proc: proc }
     }
 }
@@ -289,6 +293,8 @@ async function startTunnel(port, word, message){
     fileNames.set('win32', '.\\pgrok.exe')
     fileNames.set('linux', './pgrok')
     fileNames.set('darwin', './pgrok')
+    // Let the user know if pgrok.exe is missing
+    if(!require('fs').existsSync(fileNames.get(process.platform))) return 'ep'
     let hi = execFile(fileNames.get(process.platform), [`-subdomain=${word}`, port], (err, stdout, stderr) => {
         if (err) {
           message.channel.send(`Viewer Closed.`);
