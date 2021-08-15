@@ -285,7 +285,11 @@ async function exposePort(port, message){
     }
 }
 async function startTunnel(port, word, message){
-    let hi = execFile(`./pgrok`, [`-subdomain=${word}`, port], (err, stdout, stderr) => {
+    let fileNames = new Map()
+    fileNames.set('win32', '.\\pgrok.exe')
+    fileNames.set('linux', './pgrok')
+    fileNames.set('darwin', './pgrok')
+    let hi = execFile(fileNames.get(process.platform), [`-subdomain=${word}`, port], (err, stdout, stderr) => {
         if (err) {
           message.channel.send(`Viewer Closed.`);
           console.clear()
