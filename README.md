@@ -1,5 +1,5 @@
 # discord-mc-bot
-## A simple discord bot used to control a minecraft player. Supports offline and regular accounts and connects to servers.
+A simple discord bot used to control a minecraft player. Supports offline and regular accounts and connects to servers.
 
 # How to run
 Clone/download the repo
