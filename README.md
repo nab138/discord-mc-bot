@@ -18,4 +18,6 @@ Open a terminal in the folder with the downloaded files
 
 Run `npm i`
 
+Download pgrok from [here](https://github.com/jerson/pgrok/releases) (Windows: Download the windows version that matches your arhitecture and extract it.) (Linux/mac: Download the BINARY, not the deb/rpm, extract it, and make sure the binary is marked as executable) and put the .exe/binary in the folder with all the other files
+
 Run `node .`
