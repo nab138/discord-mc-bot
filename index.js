@@ -16,7 +16,18 @@ client.once('ready', () => {
 	console.log('Ready!');
 });
 client.on('message', (message) => {
-    if(message.author.bot || !message.content.startsWith(config.prefix)) return;
+    if(message.author.bot) return;
+    if(message.content == `<@${client.user.id}>` || message.content == `<@!${client.user.id}>`){
+        const helpEmbed = new Discord.MessageEmbed()
+        .setTitle("Discord MC Player")
+        .setColor('5E9D34')
+        .setDescription("**WARNING - This may result in your account being banned from some servers. Use with caution, and I am not responsible for any bans you recieve.**\n\nI'm **MC-Bot**. I can login to mojang or offline accounts, join servers, show you what the bot sees, and let you control the bot.\n\nContact nab138#2035 to report issues or suggestions, or, open an issue on the [Github repository](https://github.com/nab138/discord-mc-bot)\n\n__Commands:__")
+        .addField(`${config.prefix}play`, `Join a minecraft server`, true)
+        .addField(`${config.prefix}disconnect`, `End your current session`, true)
+        .setAuthor(client.user.username, client.user.displayAvatarURL(), `https://github.com/nab138/discord-mc-bot`)
+        message.reply({embeds: [helpEmbed]})
+    }
+    if(!message.content.startsWith(config.prefix)) return
 	const args = message.content.slice(config.prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
     if(command == 'disconnect'){
@@ -24,7 +35,17 @@ client.on('message', (message) => {
         disconnect(true, message)
         message.react('👍')
     }
-    if(command == 'play'){
+    else if(command == 'help' || command == 'info'){
+        const helpEmbed = new Discord.MessageEmbed()
+        .setTitle("Discord MC Player")
+        .setColor('5E9D34')
+        .setDescription("**WARNING - This may result in your account being banned from some servers. Use with caution, and I am not responsible for any bans you recieve.**\n\nI'm **MC-Bot**. I can login to mojang or offline accounts, join servers, show you what the bot sees, and let you control the bot.\n\nContact nab138#2035 to report issues or suggestions, or, open an issue on the [Github repository](https://github.com/nab138/discord-mc-bot)\n\n__Commands:__")
+        .addField(`${config.prefix}play`, `Join a minecraft server`, true)
+        .addField(`${config.prefix}disconnect`, `End your current session`, true)
+        .setAuthor(client.user.username, client.user.displayAvatarURL(), `https://github.com/nab138/discord-mc-bot`)
+        message.reply({embeds: [helpEmbed]})
+    }
+    else if(command == 'play'){
         if(queue.has(message.author.id)) return message.reply("Finish your first session first :bruh:")
         if(userBots.has(message.author.id)) return message.reply("You already have an active bot!")
         queue.set(message.author.id, true)
